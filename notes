@@ -4,3 +4,8 @@ pass: 7rajchel
 
 # log in to database
 psql u7rajchel u7rajchel
+
+
+# When connected to database
+\?	print available commands
+\d	list tables
