@@ -107,4 +107,4 @@ SELECT DISTINCT  a.ename, b.ename FROM emp a, emp b WHERE a.mgr=b.mgr AND a.empn
 SELECT m.ename, d.dname, s.grade FROM emp m, dept d, salgrade s WHERE m.job='MANAGER' AND (SELECT COUNT(e.empno) FROM emp e WHERE e.mgr=m.empno)=1 AND d.deptno=m.deptno AND m.sal>s.losal AND m.sal<s.hisal;
 
 \echo 14. Znaleźć nazwę działu, w którym pracownicy zarabiają średnio najwięcej oraz nazwę działu, w którym pracownicy zarabiają średnio najmniej.
-SELECT  d.dname, (SELECT AVG(e.sal) AS average FROM emp e WHERE e.deptno=d.deptno) FROM dept d ORDER BY average ASC;
+SELECT MAX(average), MIN(average) FROM (SELECT deptno, AVG(sal) AS average FROM emp e GROUP BY (deptno)) AS averages;

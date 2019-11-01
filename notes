@@ -9,3 +9,69 @@ psql u7rajchel u7rajchel
 # When connected to database
 \?	print available commands
 \d	list tables
+
+# ******** lab00 ********
+# Diagram ERD
+# architect.jar - to run program
+
+# ******** lab01 ********
+CREATE TABLE Osoby (
+	id SERIAL NOT NULL,
+	Miasta_Id_miasta ENUM NOT NULL ,
+	Imie VARCHAR ,
+	Nazwisko VARCHAR ,
+	PRIMARY KEY(Id) ,
+	FOREIGN KEY(Miasta_Id_miasta)	REFERENCES Miasta(Id_miasta)
+);
+CREATE INDEX tab_index ON tab (column); # An index is a performance-tuning method of allowing faster retrieval of records. An index creates an entry for each value that appears in the indexed columns. Each index name must be unique in the database.
+
+
+# ******** lab02 ********
+DROP TABLE Osoby;
+INSERT INTO Osoby VALUE (...);
+# Place a constraint on tables:
+CONSTRAINT tab CHECK (Numer < Pensja),
+# Alter table structure
+ALTER TABLE tab ADD COLUMN Nazwisko Varchar(32);
+ALTER TABLE test RENAME COLUMN Nazwisko TO Nazwa;
+ALTER TABLE test_1 RENAME TO test_2;
+# Alter table content
+UPDATE test SET pensja = 134 WHERE Imie= 'Tomasz';
+DELETE FROM test WHERE Imie= 'Tomasz';
+# Get data from table
+SELECT town, lname AS ”nazwisko” FROM customer ORDER BY town, lname DESC;
+SELECT DISTINCT town FROM customer;
+SELECT description, CAST(cost_price*100 AS INT) AS cena FROM item; # cast to other data type
+SELECT fname, lname FROM customer WHERE fname LIKE ‘_a%’; # ESCAPE '#' - if # is in data
+# operators
+# = equals
+# <> not equals
+# < less than
+# > greater than
+LIMIT - limit numbers of rows in SELECT query
+
+
+# ******** lab03 ********
+# FOREIGN KEY - constraint for table, constraint for column
+ON DELETE { SET NULL | CASCADE }
+# Aggregate functions
+COUNT()
+AVG()
+MIN()
+MAX()
+SUM()
+
+SELECT COUNT(*) AS number ,lname, town FROM customer WHERE town <> 'Lincoln' GROUP BY lname, town HAVING COUNT(*)>1;
+
+
+# ******** lab04 ********
+# subqueries
+SELECT t.fname,t.lname FROM (SELECT c.title, c.fname, c.lname FROM customer c) AS t WHERE t.title ='Mrs' OR t.title='Miss';
+# statements
+IN
+NOT IN
+ANY
+ALL
+# related subqueries
+EXISTS
+NOT EXISTS # SELECT * FROM item i WHERE NOT EXISTS (SELECT * FROM barcode b WHERE i.item_id = b.item_id);
