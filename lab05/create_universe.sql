@@ -11,48 +11,47 @@
 -- 4. Stworzyć unikalny indeksy na pola NAME. --DONE
 -- 5. Stworzyć i zastosować sekwencje seqID dla pola ID w tabeli tabMoon i tabPlanet. --DONE
 
-DROP DOMAIN domStartUpEndNum CASCADE;
-DROP DOMAIN domUrl CASCADE;
-DROP DOMAIN domStamp CASCADE;
+--DROP DOMAIN domStartUpEndNum CASCADE;
+--DROP DOMAIN domUrl CASCADE;
+--DROP DOMAIN domStamp CASCADE;
 
-
-CREATE DOMAIN domStartUpEndNum AS CHAR(20) CONSTRAINT name CHECK (
-    UPPER(SUBSTRING(VALUE, 1, 1)) = SUBSTRING(VALUE, 1, 1)
-    AND VALUE LIKE '%\d'
-);
-CREATE DOMAIN domUrl AS CHAR(50) CONSTRAINT url CHECK(
-    VALUE LIKE 'http://%'
-    AND VALUE LIKE '%.org'
-);
-CREATE DOMAIN domStamp AS CHAR(50) CONSTRAINT stamp CHECK(
-    VALUE LIKE '\d{4}-\d{2}-\d{2} %'
-);
-
-
-DROP TABLE univers.tabMoon;
-DROP TABLE univers.tabPlanet2Sun;
-DROP TABLE univers.tabPlanet;
-DROP TABLE univers.tabSun;
-DROP TABLE univers.tabSystem;
-DROP TABLE univers.tabUniverse;
 DROP SCHEMA univers CASCADE;
-DROP SEQUENCE seqID;
-
-
 CREATE SCHEMA univers;
+
+--CREATE DOMAIN univers.domStartUpEndNum AS TEXT CONSTRAINT name CHECK(
+--    UPPER(SUBSTRING(VALUE, 1, 1)) = SUBSTRING(VALUE, 1, 1)
+--    AND VALUE ~ '.*\d'
+--);
+
+CREATE DOMAIN univers.domUrl AS TEXT CONSTRAINT url CHECK(
+	VALUE LIKE 'http://%.org'
+);
+CREATE DOMAIN univers.domStamp AS TEXT CONSTRAINT stamp CHECK(
+    VALUE ~ '\d{4}-\d{2}-\d{2} u7.'
+);
+
+
+--DROP TABLE univers.tabMoon;
+--DROP TABLE univers.tabPlanet2Sun;
+--DROP TABLE univers.tabPlanet;
+--DROP TABLE univers.tabSun;
+--DROP TABLE univers.tabSystem;
+--DROP TABLE univers.tabUniverse;
+
+DROP SEQUENCE seqID;
 CREATE SEQUENCE seqID   START   1   MAXVALUE    5   CYCLE;
 
-
+\echo Let there be light!
 CREATE TABLE univers.tabUniverse (
     id  INT PRIMARY KEY,
-    name    CHAR(20) UNIQUE NOT NULL
+    name	CHAR(20)	UNIQUE NOT NULL
 );
 
 CREATE TABLE univers.tabSystem(
     id  INT PRIMARY KEY,
     idUnivers   INT REFERENCES univers.tabUniverse(id) NOT NULL,
     name    CHAR(20) UNIQUE NOT NULL,
-    discStamp   CHAR(50) NOT NULL
+    discStamp   univers.domStamp NOT NULL
 );
 
 CREATE TABLE univers.tabSun(
@@ -67,7 +66,7 @@ CREATE TABLE univers.tabPlanet(
     name    CHAR(20) UNIQUE NOT NULL,
     period  DECIMAL(5,2),
     distance DECIMAL(10,2),
-    url CHAR(50)
+    url univers.domUrl
 );
 
 CREATE TABLE univers.tabPlanet2Sun(
