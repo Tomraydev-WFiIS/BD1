@@ -75,3 +75,12 @@ ALL
 # related subqueries
 EXISTS
 NOT EXISTS # SELECT * FROM item i WHERE NOT EXISTS (SELECT * FROM barcode b WHERE i.item_id = b.item_id);
+
+# ******** lab05 ********
+SCHEMA
+SEQUENCE
+INDEX
+VIEW
+DOMAIN
+
+# ******** lab06 ********
