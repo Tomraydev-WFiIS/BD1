@@ -1,0 +1,19 @@
+#include <stdlib.h>
+
+EXEC SQL BEGIN DECLARE SECTION;
+    int id;
+    char fname[20];
+    char lname[20];
+EXEC SQL END DECLARE SECTION;
+
+
+exec sql include sqlca;
+main() {
+    exec sql CONNECT TO tcp:postgresql://pascal:5432/u7rajchel USER u7rajchel USING u7rajchel;
+    exec sql BEGIN WORK;
+    exec sql select id, fname, lname INTO :id, :fname, :lname FROM OSOBA LIMIT 1;
+    printf("%s, %s, %s", id, fname, lname);
+    exec sql COMMIT WORK;
+    exec sql disconnect all;
+    return EXIT_SUCCESS;
+}
