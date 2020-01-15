@@ -12,8 +12,8 @@ Może najpierw 2d a jak się uda to 3d, zobaczymy jak to będzie.
 Samoloty kołują nad lotniskiem jeżeli nie ma dostępnych pasów startowych.
 Zdarzenia losowe (wypadki, awaryjne lądowania).
 
-language: C# + SQL
-GUI: Unity
+language: Python (flask) + SQL
+GUI: JavaScript + HTML + CSS
 
 encje:
 -flight
