@@ -1,0 +1,1 @@
+INSERT INTO test (name, email) VALUES ('tomray', 'tomray@gmail.com');

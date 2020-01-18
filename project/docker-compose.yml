@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+
+  web:
+    build: .
+    command: python run.py
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+    volumes:
+      - ./services/web:/app
+    environment:
+      FLASK_APP: project/__init__.py
+      FLASK_ENV: development
+      # DATABASE_URL: postgresql://postgres:postgres@db:5432/flight_radar_db
+
+  db:
+    image: postgres:11.5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./services/db/sql/create_db.sql:/docker-entrypoint-initdb.d/1-create.sql
+      - ./services/db/sql/pop_db.sql:/docker-entrypoint-initdb.d/2-pop.sql
+    environment:
+      POSTGRES_USER: postgres # no effect. user tomray
+      POSTGRES_PASSWORD: postgres # no effect. user tomray
+      POSTGRES_DB: flight_radar_db
+
+volumes:
+  postgres_data:
